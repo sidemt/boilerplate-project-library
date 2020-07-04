@@ -1,5 +1,6 @@
 'use strict';
 
+var dotenv = require('dotenv').config();
 var express     = require('express');
 var bodyParser  = require('body-parser');
 var cors        = require('cors');
@@ -13,7 +14,7 @@ var app = express();
 
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use(helmet.hidePoweredBy({ setTo: 'PHP 4.2.0'}));
-app.use(halmet.noCache());
+app.use(helmet.noCache());
 app.use(cors({origin: '*'})); //USED FOR FCC TESTING PURPOSES ONLY!
 
 app.use(bodyParser.json());
