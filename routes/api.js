@@ -33,21 +33,26 @@ module.exports = function (app) {
 
     .post(function (req, res){
       var title = req.body.title;
-      //response will contain new book object including atleast _id and title
-      let book = {
-        title: title,
-        comments: [],
-        commentcount: 0
-      };
-      MongoClient.connect(MONGODB_CONNECTION_STRING, function(err, client){
-        let db = client.db('personal-library');
-        let collection = db.collection('books');
-        collection.insertOne(book, function(err, doc){
-          book._id = doc.insertedId;
-          res.json(book);
-          db.close();
-        })
-      })
+      if (title && title.length){
+        //response will contain new book object including atleast _id and title
+        let book = {
+          title: title,
+          comments: [],
+          commentcount: 0
+        };
+        MongoClient.connect(MONGODB_CONNECTION_STRING, function (err, client) {
+          let db = client.db("personal-library");
+          let collection = db.collection("books");
+          collection.insertOne(book, function (err, doc) {
+            book._id = doc.insertedId;
+            res.json(book);
+            db.close();
+          });
+        });
+      } else {
+
+      res.send('missing title');
+      }
     })
 
     .delete(function(req, res){
